@@ -1,20 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
-  <title>B2BI test PBI</title>
-</head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.js"></script>
+<script src="powerbi.js"></script>
 
-<body>
-  <main>
+<script type="text/javascript">
+window.onload = function () {
+ // Read embed application token from Model
+    var accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ii1LSTNROW5OUjdiUm9meG1lWm9YcWJIWkdldyIsImtpZCI6Ii1LSTNROW5OUjdiUm9meG1lWm9YcWJIWkdldyJ9.eyJhdWQiOiJodHRwczovL2FuYWx5c2lzLndpbmRvd3MubmV0L3Bvd2VyYmkvYXBpIiwiaXNzIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvYTlhMTk2MzMtYjY2Mi00YmU0LThkYTItN2FmODg1ZDM2NWZmLyIsImlhdCI6MTY5MDM5MDYzNywibmJmIjoxNjkwMzkwNjM3LCJleHAiOjE2OTAzOTQ1MzcsImFpbyI6IkUyWmdZUGdzcEx6MmsyTWFJL2QyTmc1WjAwWFZBQT09IiwiYXBwaWQiOiI2NjcxYTQyZi0xYmZjLTRiNjQtYTQxYy1iMzJhMmFlNWE3ZTEiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9hOWExOTYzMy1iNjYyLTRiZTQtOGRhMi03YWY4ODVkMzY1ZmYvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiJiY2M1ZTJlYy1iNWY5LTQwNjQtODlkYy1hYTY3ZjY3YjNjZmEiLCJyaCI6IjAuQVF3QU01YWhxV0syNUV1Tm9ucjRoZE5sX3drQUFBQUFBQUFBd0FBQUFBQUFBQUNXQUFBLiIsInN1YiI6ImJjYzVlMmVjLWI1ZjktNDA2NC04OWRjLWFhNjdmNjdiM2NmYSIsInRpZCI6ImE5YTE5NjMzLWI2NjItNGJlNC04ZGEyLTdhZjg4NWQzNjVmZiIsInV0aSI6ImRBZTh2dDVwYms2cFhHc000SEF5QUEiLCJ2ZXIiOiIxLjAifQ.nOU921PTvvmc7LItx67bpSCMZmu1a5tbSEUmxWdSsvLVZidxo2NdQXkwjcOgXHUWagwVScUw8abPUNzYPvI4x09T65pH02lIjSyprrtsqsCaDcD4mSb8RvnGtg546TKLl0uvLe72IbGlidGi246mjy497Wwt5KZbUntutg63kClCq6W9-DF7O1C1MCoN3YpCPacZ9YkXfFEWc7YfjGRBftQapgvvvvfVn3TWaKSk8jz_fQQwKm-LAgnYgc_s-NnSNnkvFABcxkpuuny4WmCMYUDW9bpbk4zbExkBT7ORK2mceJXcJTXAUK46c57ROt6BTzeXn-I8w-_YvcFUFySN9g"; 
+	
+    // Read embed URL from Model
+    var embedUrl = "https://app.powerbi.com/reportEmbed";
 
-    <iframe title="Struktura cen SLED" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=bc35e0cc-2eae-45e2-8d73-1131d9dd48da&autoAuth=true&embeddedDemo=true" frameborder="0" allowFullScreen="true"></iframe>
+    // Read dashboard Id from Model
+    var embedReportId = "bc35e0cc-2eae-45e2-8d73-1131d9dd48da&autoAuth=true&ctid=a9a19633-b662-4be4-8da2-7af885d365ff";
 
+    // Get models. models contains enums that can be used.
+    var models = window['powerbi-client'].models; 
+	 
+    var config = {
+        type: 'report',
+        tokenType: models.TokenType.Embed,
+        accessToken: accessToken,
+        embedUrl: embedUrl,
+        id: embedReportId , 
+		settings: {
+        filterPaneEnabled: true	
+    }		 
+    };
 
-  </main>
-</body>
-
-</html>
+    // Get a reference to the embedded dashboard HTML element
+    var dashboardContainer = $('#reportContainer')[0] ;
+    // Embed the dashboard and display it within the div container.
+var reports = powerbi.embed(dashboardContainer, config); 
+}  
+</script>  
+<div id="reportContainer"></div> 
+</html>  
