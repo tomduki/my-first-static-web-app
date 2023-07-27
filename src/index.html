@@ -1,5 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>PBI Embedded</title>
+  </head>
+  
+  <body>
+    <main>
+      <h1>My Test APP</h1>
+    </main>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.js"></script>
 <script src="powerbi.js"></script>
@@ -16,13 +27,13 @@ models = window['powerbi-client'].models;
 
 function embedPowerBIReport() {
     // Read embed application token
-    let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ii1LSTNROW5OUjdiUm9meG1lWm9YcWJIWkdldyIsImtpZCI6Ii1LSTNROW5OUjdiUm9meG1lWm9YcWJIWkdldyJ9.eyJhdWQiOiJodHRwczovL2FuYWx5c2lzLndpbmRvd3MubmV0L3Bvd2VyYmkvYXBpIiwiaXNzIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvNDlmYWQ3N2ItYWNjMC00ZDUyLWE1NmUtOTcxMDlkOWNkYzNiLyIsImlhdCI6MTY5MDQ0MTY0OSwibmJmIjoxNjkwNDQxNjQ5LCJleHAiOjE2OTA0NDU1NDksImFpbyI6IkUyRmdZTGlqVjNmSHppNVNlUDZuRGI2dUtidG1BUUE9IiwiYXBwaWQiOiI2ZWQ0MDE4ZC03OTViLTQ1YzgtYmQ4OC0xZjZiZWQwMDMzM2IiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80OWZhZDc3Yi1hY2MwLTRkNTItYTU2ZS05NzEwOWQ5Y2RjM2IvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI3YzVjNjFlNC03YzRhLTRhMTEtYjUyNy0zNWZiOTY1NTNhN2IiLCJyaCI6IjAuQVhRQWU5ZjZTY0NzVWsybGJwY1FuWnpjT3drQUFBQUFBQUFBd0FBQUFBQUFBQURpQUFBLiIsInN1YiI6IjdjNWM2MWU0LTdjNGEtNGExMS1iNTI3LTM1ZmI5NjU1M2E3YiIsInRpZCI6IjQ5ZmFkNzdiLWFjYzAtNGQ1Mi1hNTZlLTk3MTA5ZDljZGMzYiIsInV0aSI6ImJFRVVJS1IySlUyWWdTeDFOcUVIQUEiLCJ2ZXIiOiIxLjAifQ.cHI8tySFJiy3AcfTOz6TLgvcSi3KdczKTOHEJ4iUGLGtd8z2uY_FZ7yMUybVtO77mQubtqkflyMzsvQ5xj3fSm7vma1xkVn6gyn3ivs6yB9fMfqirPXGpeAMB8tY9O8ryK3bAM53DogoNgRCK8IgImCZ4qmtzznISp-FCBjTKpoUFgJAF6gOs1i-8b_E5ngg3DHJThstUtSUTu4icO3yBhYQFHNeH94nqHKv5J3xTf6a2BgRfeibvnl4KldVJClst4elUazZ47-TSlmfaNfhWjiKKgvDsiEgliNFK02IPVHLOKxcw1d_xL8eXQUnwBgmO-_ZzB24BUnD-dKr0C-ugQ"; 
+    let accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ii1LSTNROW5OUjdiUm9meG1lWm9YcWJIWkdldyIsImtpZCI6Ii1LSTNROW5OUjdiUm9meG1lWm9YcWJIWkdldyJ9.eyJhdWQiOiJodHRwczovL2FuYWx5c2lzLndpbmRvd3MubmV0L3Bvd2VyYmkvYXBpIiwiaXNzIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvNDlmYWQ3N2ItYWNjMC00ZDUyLWE1NmUtOTcxMDlkOWNkYzNiLyIsImlhdCI6MTY5MDQ0MTY0OSwibmJmIjoxNjkwNDQxNjQ5LCJleHAiOjE2OTA0NDU1NDksImFpbyI6IkUyRmdZTGlqVjNmSHppNVNlUDZuRGI2dUtidG1BUUE9IiwiYXBwaWQiOiI2ZWQ0MDE4ZC03OTViLTQ1YzgtYmQ4OC0xZjZiZWQwMDMzM2IiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80OWZhZDc3Yi1hY2MwLTRkNTItYTU2ZS05NzEwOWQ5Y2RjM2IvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI3YzVjNjFlNC03YzRhLTRhMTEtYjUyNy0zNWZiOTY1NTNhN2IiLCJyaCI6IjAuQVhRQWU5ZjZTY0NzVWsybGJwY1FuWnpjT3drQUFBQUFBQUFBd0FBQUFBQUFBQURpQUFBLiIsInN1YiI6IjdjNWM2MWU0LTdjNGEtNGExMS1iNTI3LTM1ZmI5NjU1M2E3YiIsInRpZCI6IjQ5ZmFkNzdiLWFjYzAtNGQ1Mi1hNTZlLTk3MTA5ZDljZGMzYiIsInV0aSI6ImJFRVVJS1IySlUyWWdTeDFOcUVIQUEiLCJ2ZXIiOiIxLjAifQ.cHI8tySFJiy3AcfTOz6TLgvcSi3KdczKTOHEJ4iUGLGtd8z2uY_FZ7yMUybVtO77mQubtqkflyMzsvQ5xj3fSm7vma1xkVn6gyn3ivs6yB9fMfqirPXGpeAMB8tY9O8ryK3bAM53DogoNgRCK8IgImCZ4qmtzznISp-FCBjTKpoUFgJAF6gOs1i-8b_E5ngg3DHJThstUtSUTu4icO3yBhYQFHNeH94nqHKv5J3xTf6a2BgRfeibvnl4KldVJClst4elUazZ47-TSlmfaNfhWjiKKgvDsiEgliNFK02IPVHLOKxcw1d_xL8eXQUnwBgmO-_ZzB24BUnD-dKr0C-ugQ'; 
     // Read embed URL
-    let embedUrl = "https://embedded.powerbi.com/";
+    let embedUrl = 'https://api.powerbi.com/';
     // Read report Id
-    let embedReportId = "262a7ac3-9ce2-47fa-9fd8-ace204e0dc21";
+    let embedReportId = '262a7ac3-9ce2-47fa-9fd8-ace204e0dc21';
     // Read embed type from radio
-    let tokenType = "Bearer";
+    let tokenType = 'Bearer';
 
     // We give All permissions to demonstrate switching between View and Edit mode and saving report.
     let permissions = models.Permissions.All;
@@ -78,5 +89,5 @@ await reportLoaded;
 await reportRendered;
 
 </script>  
-<div id="reportContainer"></div> 
+</body>
 </html> 
