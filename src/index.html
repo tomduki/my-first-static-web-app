@@ -5,34 +5,78 @@
 <script src="powerbi.js"></script>
 
 <script type="text/javascript">
-window.onload = function () {
- // Read embed application token from Model
-    var accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ii1LSTNROW5OUjdiUm9meG1lWm9YcWJIWkdldyIsImtpZCI6Ii1LSTNROW5OUjdiUm9meG1lWm9YcWJIWkdldyJ9.eyJhdWQiOiJodHRwczovL2FuYWx5c2lzLndpbmRvd3MubmV0L3Bvd2VyYmkvYXBpIiwiaXNzIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvYTlhMTk2MzMtYjY2Mi00YmU0LThkYTItN2FmODg1ZDM2NWZmLyIsImlhdCI6MTY5MDQzOTMyMSwibmJmIjoxNjkwNDM5MzIxLCJleHAiOjE2OTA0NDMyMjEsImFpbyI6IkUyWmdZT2k5dUtjdFhYN3p4UExrMXp3LzQvdERBQT09IiwiYXBwaWQiOiI4N2ZhNWJlYy04M2VmLTRlYmUtYmZkNS01ZjkzNDNmOTExZjEiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9hOWExOTYzMy1iNjYyLTRiZTQtOGRhMi03YWY4ODVkMzY1ZmYvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiIyYWU4YTAzNi0zYTBhLTQ1MDctODA1Ny1iZWY4MmYyZjc2MDYiLCJyaCI6IjAuQVF3QU01YWhxV0syNUV1Tm9ucjRoZE5sX3drQUFBQUFBQUFBd0FBQUFBQUFBQUNXQUFBLiIsInN1YiI6IjJhZThhMDM2LTNhMGEtNDUwNy04MDU3LWJlZjgyZjJmNzYwNiIsInRpZCI6ImE5YTE5NjMzLWI2NjItNGJlNC04ZGEyLTdhZjg4NWQzNjVmZiIsInV0aSI6ImJ0VUJuek5SaEUyZjFMUm5SRWdTQUEiLCJ2ZXIiOiIxLjAifQ.fl9wKuBIoRGJ-6qvNvoEflscDo1L_g4WpOgKU-t8W72vCDGWWfouxbEN3gVnSahwwqKNtlEyWT1fWQZrOHkZ00x_3NyXdr6ZM1nVkfZFtJK4eu890bBy3chNYxJYW1maPusvGu70qtDFx6VvdD4ZTthPPpAu3g0bGndoOGg-PzujtjDd9vJA3jNIlvrp0sbhyJT_PW_GobzgLLsUCRfbA6mr4hs7mviHb1CJ8uokddBH9vDGcmR-ArgN-IlyRwoszWp9Y7G2s_wbdHb4n9yFV78WNqOHyILMMi18lXj2IZ85GCNqYqRxbBnAffnnIYm12ydUiSSkziDez6mqIBBkcg"
-    // Read embed URL from Model
-    var embedUrl = "https://app.powerbi.com/reportEmbed";
 
-    // Read dashboard Id from Model
-    var embedReportId = "bf6753b9-f651-493e-8085-41e8124e47b0";
+let loadedResolve, reportLoaded = new Promise((res, rej) => { loadedResolve = res; });
+let renderedResolve, reportRendered = new Promise((res, rej) => { renderedResolve = res; });
 
-    // Get models. models contains enums that can be used.
-    var models = window['powerbi-client'].models; 
-	 
-    var config = {
+// Get models. models contains enums that can be used.
+models = window['powerbi-client'].models;
+// Embed a Power BI report in the given HTML element with the given configurations
+// Read more about how to embed a Power BI report in your application here: https://go.microsoft.com/fwlink/?linkid=2153590
+
+function embedPowerBIReport() {
+    // Read embed application token
+    let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ii1LSTNROW5OUjdiUm9meG1lWm9YcWJIWkdldyIsImtpZCI6Ii1LSTNROW5OUjdiUm9meG1lWm9YcWJIWkdldyJ9.eyJhdWQiOiJodHRwczovL2FuYWx5c2lzLndpbmRvd3MubmV0L3Bvd2VyYmkvYXBpIiwiaXNzIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvYTlhMTk2MzMtYjY2Mi00YmU0LThkYTItN2FmODg1ZDM2NWZmLyIsImlhdCI6MTY5MDQzOTMyMSwibmJmIjoxNjkwNDM5MzIxLCJleHAiOjE2OTA0NDMyMjEsImFpbyI6IkUyWmdZT2k5dUtjdFhYN3p4UExrMXp3LzQvdERBQT09IiwiYXBwaWQiOiI4N2ZhNWJlYy04M2VmLTRlYmUtYmZkNS01ZjkzNDNmOTExZjEiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9hOWExOTYzMy1iNjYyLTRiZTQtOGRhMi03YWY4ODVkMzY1ZmYvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiIyYWU4YTAzNi0zYTBhLTQ1MDctODA1Ny1iZWY4MmYyZjc2MDYiLCJyaCI6IjAuQVF3QU01YWhxV0syNUV1Tm9ucjRoZE5sX3drQUFBQUFBQUFBd0FBQUFBQUFBQUNXQUFBLiIsInN1YiI6IjJhZThhMDM2LTNhMGEtNDUwNy04MDU3LWJlZjgyZjJmNzYwNiIsInRpZCI6ImE5YTE5NjMzLWI2NjItNGJlNC04ZGEyLTdhZjg4NWQzNjVmZiIsInV0aSI6ImJ0VUJuek5SaEUyZjFMUm5SRWdTQUEiLCJ2ZXIiOiIxLjAifQ.fl9wKuBIoRGJ-6qvNvoEflscDo1L_g4WpOgKU-t8W72vCDGWWfouxbEN3gVnSahwwqKNtlEyWT1fWQZrOHkZ00x_3NyXdr6ZM1nVkfZFtJK4eu890bBy3chNYxJYW1maPusvGu70qtDFx6VvdD4ZTthPPpAu3g0bGndoOGg-PzujtjDd9vJA3jNIlvrp0sbhyJT_PW_GobzgLLsUCRfbA6mr4hs7mviHb1CJ8uokddBH9vDGcmR-ArgN-IlyRwoszWp9Y7G2s_wbdHb4n9yFV78WNqOHyILMMi18lXj2IZ85GCNqYqRxbBnAffnnIYm12ydUiSSkziDez6mqIBBkcg";
+      // Read embed URL
+    let embedUrl = "https://app.powerbi.com/reportEmbed";
+    // Read report Id
+    let embedReportId = "bf6753b9-f651-493e-8085-41e8124e47b0";
+    // Read embed type from radio
+    let tokenType = "Bearer";
+
+    // We give All permissions to demonstrate switching between View and Edit mode and saving report.
+    let permissions = models.Permissions.All;
+
+    // Create the embed configuration object for the report
+    let config = {
         type: 'report',
-        tokenType: models.TokenType.Embed,
+        tokenType: tokenType == '0' ? models.TokenType.Aad : models.TokenType.Embed,
         accessToken: accessToken,
         embedUrl: embedUrl,
-        id: embedReportId , 
-		settings: {
-        filterPaneEnabled: true	
-    }		 
+        id: embedReportId,
+        permissions: permissions,
+        settings: {
+            panes: {
+                filters: {
+                    visible: true
+                },
+                pageNavigation: {
+                    visible: true
+                }
+            }
+        }
     };
 
-    // Get a reference to the embedded dashboard HTML element
-    var dashboardContainer = $('#reportContainer')[0] ;
-    // Embed the dashboard and display it within the div container.
-var reports = powerbi.embed(dashboardContainer, config); 
-}  
+    // Get a reference to the embedded report HTML element
+    let embedContainer = $('#embedContainer')[0];
+    // Embed the report and display it within the div container.
+    report = powerbi.embed(embedContainer, config);
+    // report.off removes all event handlers for a specific event
+    report.off("loaded");
+    // report.on will add an event handler
+    report.on("loaded", function () {
+        loadedResolve();
+        report.off("loaded");
+    });
+
+    // report.off removes all event handlers for a specific event
+    report.off("error");
+    report.on("error", function (event) {
+        console.log(event.detail);
+    });
+    // report.off removes all event handlers for a specific event
+    report.off("rendered");
+    // report.on will add an event handler
+    report.on("rendered", function () {
+        renderedResolve();
+        report.off("rendered");
+    });
+}
+embedPowerBIReport();
+await reportLoaded;
+// Insert here the code you want to run after the report is loaded
+await reportRendered;
+
 </script>  
 <div id="reportContainer"></div> 
-</html>  
+</html> 
